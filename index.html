@@ -1,4 +1,3 @@
-<!-- Telegram : Karbawzi1File -->
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -6,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Karbawzi</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&family=Orbitron:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Exo 2', sans-serif;
+            font-family: 'Vazirmatn', 'Exo 2', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -25,7 +24,7 @@
             touch-action: manipulation;
         }
 
-        /* Karbawzi1File */
+        /* Karbawzi1File - Background Pattern */
         body::before {
             content: "";
             position: absolute;
@@ -41,7 +40,7 @@
             z-index: -2;
         }
 
-        /* Karbawzi1PV */
+        /* Karbawzi1File - Grid Overlay */
         body::after {
             content: "";
             position: absolute;
@@ -57,7 +56,7 @@
             opacity: 0.3;
         }
 
-        /* Karbawzi1File */
+        /* Karbawzi1File - Rain Effect */
         .rain {
             position: absolute;
             width: 100%;
@@ -73,6 +72,7 @@
             background: linear-gradient(transparent, rgba(0, 200, 255, 0.6));
             animation: rain linear infinite;
             opacity: 0.8;
+            will-change: transform;
         }
 
         @keyframes rain {
@@ -84,7 +84,7 @@
             }
         }
 
-        /* Karbawzi1File */
+        /* Karbawzi1File - Lightning Effect */
         .lightning {
             position: absolute;
             top: 0;
@@ -95,6 +95,7 @@
             opacity: 0;
             z-index: -1;
             animation: lightning 15s infinite;
+            will-change: opacity;
         }
 
         @keyframes lightning {
@@ -182,6 +183,27 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            position: relative;
+        }
+
+        .subtitle::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.5), transparent);
+        }
+
+        .subtitle::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.5), transparent);
         }
 
         .buttons {
@@ -191,6 +213,7 @@
             width: 100%;
             max-width: 400px;
             padding: 0 20px;
+            margin-bottom: 40px;
         }
 
         .btn {
@@ -214,6 +237,7 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             z-index: 1;
+            will-change: transform;
         }
 
         .btn::before {
@@ -244,7 +268,6 @@
             border-radius: 12px;
         }
 
-        /* Karbawzi1File */
         .crack {
             position: absolute;
             width: 100%;
@@ -293,20 +316,22 @@
             transform: translateY(2px);
         }
 
+        #top-vip {
+            border-left: 4px solid #FFD700;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(10, 15, 30, 0.7));
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+        }
+        #top-vip:hover {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(70, 50, 20, 0.6));
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+        }
+
         #youtuber {
             border-left: 4px solid #ff4d4d;
         }
         #youtuber:hover {
             background: rgba(70, 20, 30, 0.6);
             box-shadow: 0 8px 30px rgba(255, 50, 50, 0.4);
-        }
-
-        #personal {
-            border-left: 4px solid #4d79ff;
-        }
-        #personal:hover {
-            background: rgba(20, 30, 70, 0.6);
-            box-shadow: 0 8px 30px rgba(50, 100, 255, 0.4);
         }
 
         #magical {
@@ -325,6 +350,147 @@
             box-shadow: 0 8px 30px rgba(50, 255, 100, 0.4);
         }
 
+        /* Version Info */
+        .version-info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: rgba(180, 180, 200, 0.7);
+            font-size: 0.7rem;
+            text-align: left;
+            text-shadow: 0 0 5px rgba(0, 150, 255, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .version-info span {
+            display: inline-block;
+            position: relative;
+        }
+
+        .version-info span::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0, 200, 255, 0.3), transparent);
+        }
+
+        /* VIP Modal Styles */
+        .vip-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+        }
+
+        .vip-modal-content {
+            background: rgba(20, 15, 30, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+            transform: scale(0.8);
+            opacity: 0;
+            animation: modalOpen 0.3s forwards;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            text-align: center;
+        }
+
+        .vip-title {
+            font-size: clamp(1.5rem, 6vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .vip-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .vip-option {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vip-option:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .vip-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .vip-option:hover::before {
+            left: 100%;
+        }
+
+        .vip-option-name {
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .vip-option-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .close-vip-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ff4d4d;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+
+        .close-vip-modal:hover {
+            transform: rotate(90deg);
+            color: #ff8080;
+        }
+
+        /* Regular Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -400,7 +566,7 @@
 
         .motivational-quote {
             font-size: clamp(1rem, 4vw, 1.2rem);
-            line-height: 1.6;
+            line-height: 1.8;
             color: rgba(255, 255, 255, 0.95);
             font-style: italic;
             margin: 20px 0;
@@ -412,6 +578,8 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: right;
+            direction: rtl;
         }
 
         .motivational-quote::before {
@@ -518,7 +686,7 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
 
-        /* Karbawzi1PV */
+        /* Karbawzi1File - Particles Effect */
         .particles {
             position: absolute;
             top: 0;
@@ -536,6 +704,7 @@
             background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             animation: float linear infinite;
+            will-change: transform;
         }
 
         @keyframes float {
@@ -555,13 +724,14 @@
             }
         }
 
-        /* Karbawzi1PV */
+        /* Karbawzi1File - Orb Effects */
         .orb {
             position: absolute;
             border-radius: 50%;
             filter: blur(60px);
             opacity: 0.1;
             z-index: -1;
+            will-change: transform;
         }
 
         .orb-1 {
@@ -596,11 +766,11 @@
             }
         }
 
-        /* Karbawzi1File */
         .emoji {
             font-size: 1.2em;
             vertical-align: middle;
             animation: floatEmoji 3s infinite ease-in-out;
+            will-change: transform;
         }
 
         @keyframes floatEmoji {
@@ -610,6 +780,54 @@
             50% {
                 transform: translateY(-10px);
             }
+        }
+
+        /* VIP Access Code Input */
+        .vip-code-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .vip-code-input {
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .vip-code-input:focus {
+            border-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .vip-code-submit {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 215, 0, 0.7);
+            color: #222;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .vip-code-submit:hover {
+            background: rgba(255, 215, 0, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .vip-code-error {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            display: none;
         }
 
         /* Responsive Adjustments */
@@ -623,7 +841,7 @@
                 font-size: 1.1rem;
             }
             
-            .modal-content {
+            .modal-content, .vip-modal-content {
                 padding: 25px 20px;
             }
             
@@ -633,6 +851,14 @@
             
             .download-btn, .back-btn {
                 padding: 12px 20px;
+            }
+            
+            .version-info {
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                width: 100%;
+                padding: 0 20px;
             }
         }
 
@@ -651,11 +877,11 @@
                 border-radius: 10px;
             }
             
-            .modal-content {
+            .modal-content, .vip-modal-content {
                 padding: 20px 15px;
             }
             
-            .info-title {
+            .info-title, .vip-title {
                 font-size: 1.3rem;
             }
             
@@ -663,28 +889,34 @@
                 font-size: 0.9rem;
                 padding: 12px;
             }
+            
+            .version-info {
+                font-size: 0.6rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Karbawzi1File - Background Effects -->
     <div class="lightning"></div>
     <div class="rain" id="rain"></div>
     <div class="particles" id="particles"></div>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     
+    <!-- Karbawzi1File - Main Content -->
     <div class="container">
         <div class="logo">Karbawzi</div>
         <div class="subtitle">Karbawzi1File</div>
         
         <div class="buttons">
+            <button class="btn" id="top-vip">
+                <span class="crack" id="crack0"></span>
+                TOP VIP <span class="emoji">👑</span>
+            </button>
             <button class="btn" id="youtuber">
                 <span class="crack" id="crack1"></span>
                 YOUTUBER <span class="emoji">🎥</span>
-            </button>
-            <button class="btn" id="personal">
-                <span class="crack" id="crack2"></span>
-                Personal <span class="emoji">👤</span>
             </button>
             <button class="btn" id="magical">
                 <span class="crack" id="crack3"></span>
@@ -695,9 +927,36 @@
                 Free File <span class="emoji">🎁</span>
             </button>
         </div>
+        
+        <!-- Karbawzi1File -->
+        <div class="version-info">
+            <span>Globally Version 1.0.52.7</span>
+            <span>Latest update 2025.8.14</span>
+        </div>
     </div>
     
-    <!-- Telegram : Karbawzi1File -->
+    <!-- Karbawzi1File  -->
+    <div class="vip-modal" id="vipModal">
+        <div class="vip-modal-content">
+            <span class="close-vip-modal">×</span>
+            
+            <h2 class="vip-title">TOP VIP ACCESS</h2>
+            
+            <div class="vip-options">
+                <div class="vip-option" id="vip-arash">
+                    <div class="vip-option-name">Arash</div>
+                </div>
+                <div class="vip-option" id="vip-mmd">
+                    <div class="vip-option-name">MmD Co</div>
+                </div>
+                <div class="vip-option" id="vip-admino">
+                    <div class="vip-option-name">Wild Man</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Karbawzi1File - Regular Modal -->
     <div class="modal" id="contentModal">
         <div class="modal-content">
             <span class="close-modal">×</span>
@@ -705,7 +964,14 @@
             <div class="info-page">
                 <h2 class="info-title" id="infoTitle">Welcome</h2>
                 <div class="motivational-quote" id="motivationalQuote"></div>
-                <a href="#" class="download-btn" id="downloadBtn">
+                
+                <div class="vip-code-container" id="vipCodeContainer" style="display: none;">
+                    <input type="text" class="vip-code-input" id="vipCodeInput" placeholder="Enter VIP Access Code">
+                    <button class="vip-code-submit" id="vipCodeSubmit">Submit</button>
+                    <div class="vip-code-error" id="vipCodeError">Invalid VIP Code. Please try again.</div>
+                </div>
+                
+                <a href="#" class="download-btn" id="downloadBtn" style="display: none;">
                     Download <span class="emoji">⬇️</span>
                 </a>
                 <button class="back-btn" id="backBtn">
@@ -716,23 +982,26 @@
     </div>
 
     <script>
+        // Karbawzi1File - Main Script
         document.addEventListener('DOMContentLoaded', function() {
-            // Create rain effect
+            // Create rain effect (optimized for performance)
             const rainContainer = document.getElementById('rain');
-            for (let i = 0; i < 100; i++) {
+            const rainDropsCount = window.innerWidth < 768 ? 40 : 60; // Reduce drops on mobile
+            
+            for (let i = 0; i < rainDropsCount; i++) {
                 const drop = document.createElement('div');
                 drop.classList.add('rain-drop');
                 drop.style.left = Math.random() * 100 + 'vw';
-                drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+                drop.style.animationDuration = (Math.random() * 0.5 + 0.7) + 's'; // Slightly slower
                 drop.style.animationDelay = Math.random() * 2 + 's';
-                drop.style.height = (Math.random() * 20 + 10) + 'px';
-                drop.style.opacity = Math.random() * 0.5 + 0.3;
+                drop.style.height = (Math.random() * 15 + 10) + 'px'; // Shorter drops
+                drop.style.opacity = Math.random() * 0.4 + 0.2; // More transparent
                 rainContainer.appendChild(drop);
             }
             
             // Create floating particles
             const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 40; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 particle.style.left = Math.random() * 100 + 'vw';
@@ -750,7 +1019,6 @@
                 const crack = document.createElement('div');
                 crack.classList.add('crack');
                 
-                // Create random cracks
                 for (let i = 0; i < 3; i++) {
                     const crackLine = document.createElement('div');
                     crackLine.classList.add('crack-line');
@@ -774,65 +1042,107 @@
                 button.appendChild(crack);
             }
             
+            createCracks('top-vip');
             createCracks('youtuber');
-            createCracks('personal');
             createCracks('magical');
             createCracks('free-file');
             
-            // Motivational quotes
+            // Persian motivational quotes
             const motivationalQuotes = [
-                "The only limit to our realization of tomorrow is our doubts of today. ✨",
-                "Success is not final, failure is not fatal: It is the courage to continue that counts. 💪",
-                "Believe you can and you're halfway there. 🚀",
-                "Your time is limited, don't waste it living someone else's life. ⏳",
-                "The future belongs to those who believe in the beauty of their dreams. 🌌",
-                "Strive not to be a success, but rather to be of value. 🌟",
-                "The only way to do great work is to love what you do. ❤️",
-                "Don't watch the clock; do what it does. Keep going. ⏱️",
-                "The secret of getting ahead is getting started. 🏁",
-                "It always seems impossible until it's done. 🔥",
-                "Act as if what you do makes a difference. It does. 🌍",
-                "You are never too old to set another goal or to dream a new dream. 🌈",
-                "The harder you work for something, the greater you'll feel when you achieve it. 🏆",
-                "Dream bigger. Do bigger. 🌠",
-                "Wake up with determination. Go to bed with satisfaction. ☀️🌙"
+                "تنها محدودیت‌های ما آنهایی هستند که در ذهن خود می‌سازیم. ✨",
+                "موفقیت نهایی نیست، شکست مرگبار نیست: این شجاعت ادامه دادن است که اهمیت دارد. 💪",
+                "باور کنید که می‌توانید و نیمی از راه را رفته‌اید. 🚀",
+                "زمان شما محدود است، آن را با زندگی کردن زندگی دیگران هدر ندهید. ⏳",
+                "آینده از آن کسانی است که به زیبایی رویاهایشان باور دارند. 🌌",
+                "تلاش نکنید موفق باشید، بلکه تلاش کنید باارزش باشید. 🌟",
+                "تنها راه انجام کار بزرگ این است که عاشق کاری باشی که انجام می‌دهی. ❤️",
+                "به ساعت نگاه نکنید؛ کاری را انجام دهید که ساعت انجام می‌دهد. ادامه دهید. ⏱️",
+                "راه پیشرفت این است که شروع کنید. 🏁",
+                "همیشه غیرممکن به نظر می‌رسد تا زمانی که انجام شود. 🔥",
+                "طوری عمل کنید که گویی آنچه انجام می‌دهید تفاوت ایجاد می‌کند. همینطور هم هست. 🌍",
+                "هیچوقت برای تعیین هدف جدید یا رویای جدید پیر نیستید. 🌈",
+                "هرچه سخت‌تر برای چیزی تلاش کنید، وقتی به آن برسید احساس بهتری خواهید داشت. 🏆",
+                "بزرگتر فکر کن. بزرگتر عمل کن. 🌠",
+                "با عزم از خواب برخیزید. با رضایت به خواب بروید. ☀️🌙"
             ];
             
+            // Karbawzi1File - DOM Elements
+            const topVipBtn = document.getElementById('top-vip');
             const youtuberBtn = document.getElementById('youtuber');
-            const personalBtn = document.getElementById('personal');
             const magicalBtn = document.getElementById('magical');
             const freeFileBtn = document.getElementById('free-file');
+            const vipModal = document.getElementById('vipModal');
+            const closeVipModal = document.querySelector('.close-vip-modal');
+            const vipArash = document.getElementById('vip-arash');
+            const vipMmd = document.getElementById('vip-mmd');
+            const vipAdmino = document.getElementById('vip-admino');
             const contentModal = document.getElementById('contentModal');
             const closeModal = document.querySelector('.close-modal');
             const infoTitle = document.getElementById('infoTitle');
             const motivationalQuote = document.getElementById('motivationalQuote');
             const downloadBtn = document.getElementById('downloadBtn');
             const backBtn = document.getElementById('backBtn');
+            const vipCodeContainer = document.getElementById('vipCodeContainer');
+            const vipCodeInput = document.getElementById('vipCodeInput');
+            const vipCodeSubmit = document.getElementById('vipCodeSubmit');
+            const vipCodeError = document.getElementById('vipCodeError');
             
+            // Karbawzi1File - Content Information
             const contentInfo = {
                 'youtuber': {
                     title: '🎥 YOUTUBER Access',
                     downloadText: 'Download YOUTUBER Package',
-                    downloadLink: 'https://karbawzi-cfg.github.io/myfiles/YouTuber_V2.zip'
-                },
-                'personal': {
-                    title: '👤 Personal Access',
-                    downloadText: 'Download Personal Files',
-                    downloadLink: 'https://karbawzi-cfg.github.io/myfiles/Gift17July.zip'
+                    downloadLink: 'https://s33.picofile.com/file/8485665576/YouTuber_V11.zip.html',
+                    requireVip: false
                 },
                 'magical': {
                     title: '✨ Magical Access',
                     downloadText: 'Download Magical Content',
-                    downloadLink: 'https://karbawzi-cfg.github.io/myfiles/Gift17July.zip'
+                    downloadLink: 'https://s33.picofile.com/file/8485665600/Magical_V11.zip.html',
+                    requireVip: false
                 },
                 'free-file': {
                     title: '🎁 Free File Access',
                     downloadText: 'Download Free File',
-                    downloadLink: 'https://karbawzi-cfg.github.io/myfiles/FreeV1July29.zip'
+                    downloadLink: 'https://s33.picofile.com/file/8485667142/FreeFile_Karbawzi.zip.html',
+                    requireVip: false
+                },
+                'arash': {
+                    title: '👑 Arash VIP',
+                    downloadText: 'Download Arash VIP Content',
+                    downloadLink: '#',
+                    requireVip: true
+                },
+                'mmd': {
+                    title: '👑 MmD Co VIP',
+                    downloadText: 'Download MmD Co VIP Content',
+                    downloadLink: '#',
+                    requireVip: true
+                },
+                'admino': {
+                    title: '👑 Wild Man VIP',
+                    downloadText: 'Download Wild Man VIP Content',
+                    downloadLink: '#',
+                    requireVip: true
                 }
             };
             
+            // Current selected option
+            let currentOption = null;
+            
+            // Karbawzi1File - Modal Functions
+            function openVipModal() {
+                vipModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeVipModalFunc() {
+                vipModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
             function openModal(option) {
+                currentOption = option;
                 const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
                 
                 infoTitle.textContent = contentInfo[option].title;
@@ -840,9 +1150,24 @@
                 downloadBtn.textContent = contentInfo[option].downloadText;
                 downloadBtn.href = contentInfo[option].downloadLink;
                 
+                // Show/hide VIP code input based on content type
+                if (contentInfo[option].requireVip) {
+                    vipCodeContainer.style.display = 'flex';
+                    downloadBtn.style.display = 'none';
+                    vipCodeInput.value = '';
+                    vipCodeError.style.display = 'none';
+                } else {
+                    vipCodeContainer.style.display = 'none';
+                    downloadBtn.style.display = 'flex';
+                }
+                
+                // Style download button based on content type
                 if (option === 'free-file') {
                     downloadBtn.style.background = 'rgba(0, 200, 100, 0.7)';
                     downloadBtn.style.borderColor = 'rgba(0, 200, 100, 0.5)';
+                } else if (contentInfo[option].requireVip) {
+                    downloadBtn.style.background = 'rgba(255, 215, 0, 0.7)';
+                    downloadBtn.style.borderColor = 'rgba(255, 215, 0, 0.5)';
                 } else {
                     downloadBtn.style.background = 'rgba(0, 150, 255, 0.7)';
                     downloadBtn.style.borderColor = 'rgba(0, 150, 255, 0.5)';
@@ -855,23 +1180,65 @@
             function closeModalFunc() {
                 contentModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+                currentOption = null;
             }
             
+            // Check VIP code
+            function checkVipCode() {
+                const enteredCode = vipCodeInput.value.trim();
+                const correctCode = 'KarbawziVipFile';
+                
+                if (enteredCode === correctCode) {
+                    vipCodeError.style.display = 'none';
+                    vipCodeContainer.style.display = 'none';
+                    downloadBtn.style.display = 'flex';
+                } else {
+                    vipCodeError.style.display = 'block';
+                }
+            }
+            
+            // Karbawzi1File - Event Listeners
+            topVipBtn.addEventListener('click', openVipModal);
             youtuberBtn.addEventListener('click', () => openModal('youtuber'));
-            personalBtn.addEventListener('click', () => openModal('personal'));
             magicalBtn.addEventListener('click', () => openModal('magical'));
             freeFileBtn.addEventListener('click', () => openModal('free-file'));
             
+            vipArash.addEventListener('click', () => {
+                closeVipModalFunc();
+                openModal('arash');
+            });
+            
+            vipMmd.addEventListener('click', () => {
+                closeVipModalFunc();
+                openModal('mmd');
+            });
+            
+            vipAdmino.addEventListener('click', () => {
+                closeVipModalFunc();
+                openModal('admino');
+            });
+            
+            closeVipModal.addEventListener('click', closeVipModalFunc);
             closeModal.addEventListener('click', closeModalFunc);
             backBtn.addEventListener('click', closeModalFunc);
             
+            vipCodeSubmit.addEventListener('click', checkVipCode);
+            vipCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkVipCode();
+                }
+            });
+            
             window.addEventListener('click', function(e) {
+                if (e.target === vipModal) {
+                    closeVipModalFunc();
+                }
                 if (e.target === contentModal) {
                     closeModalFunc();
                 }
             });
             
-            // Random lightning effect
+            // Karbawzi1File - Random lightning effect
             setInterval(() => {
                 const lightning = document.querySelector('.lightning');
                 lightning.style.animation = 'none';
@@ -879,25 +1246,21 @@
                 lightning.style.animation = 'lightning ' + (Math.random() * 10 + 10) + 's infinite';
             }, 15000);
             
-            // Handle orientation changes
+            // Karbawzi1File - Handle orientation changes
             function handleOrientationChange() {
                 const isPortrait = window.innerHeight > window.innerWidth;
                 if (isPortrait && window.innerWidth < 768) {
-                    // Adjust layout for mobile portrait
                     document.querySelector('.buttons').style.maxWidth = '90%';
                 } else {
-                    // Reset to default
                     document.querySelector('.buttons').style.maxWidth = '400px';
                 }
             }
             
             window.addEventListener('resize', handleOrientationChange);
             window.addEventListener('orientationchange', handleOrientationChange);
-            handleOrientationChange(); // Initial check
+            handleOrientationChange();
         });
     </script>
+    <!-- Karbawzi1File - End of File -->
 </body>
-</html>
-<!-- Telegram : Karbawzi1File -->
-
-<!-- Developer TG : Ijustwantyou_yez -->
+    </html>
