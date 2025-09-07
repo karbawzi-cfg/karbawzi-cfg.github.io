@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Karbawzi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: linear-gradient(135deg, #0a0a1a, #1a1a2e); color: #fff; min-height: 100vh; position: relative; overflow-x: hidden; touch-action: manipulation; }
+        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(15, 15, 35, 0.8), rgba(10, 10, 30, 0.9)), url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 0h100v100H0z" fill="none"/%3E%3Cpath d="M20 20h60v60H20z" stroke="rgba(0,150,255,0.05)" stroke-width="2" fill="none"/%3E%3Cpath d="M30 30h40v40H30z" stroke="rgba(0,150,255,0.03)" stroke-width="1" fill="none"/%3E%3C/svg%3E'); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: -2; }
+        body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 150, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 150, 255, 0.1) 1px, transparent 1px); background-size: 30px 30px; z-index: -1; opacity: 0.3; }
+        .rain { position: absolute; width: 100%; height: 100%; overflow: hidden; z-index: -1; }
+        .rain-drop { position: absolute; width: 1px; height: 30px; background: linear-gradient(transparent, rgba(0, 200, 255, 0.6)); animation: rain linear infinite; opacity: 0.8; will-change: transform; }
+        @keyframes rain { 0% { transform: translateY(-100vh); } 100% { transform: translateY(100vh); } }
+        .lightning { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; z-index: -1; animation: lightning 15s infinite; will-change: opacity; }
+        @keyframes lightning { 0% { opacity: 0; } 2% { opacity: 0; } 2.5% { opacity: 0.4; } 3% { opacity: 0; } 3.5% { opacity: 0.6; } 4% { opacity: 0; } 4.5% { opacity: 0.3; } 5% { opacity: 0; } 100% { opacity: 0; } }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; position: relative; z-index: 1; }
+        .logo { font-size: clamp(2.5rem, 8vw, 3.5rem); font-weight: 700; margin-bottom: 2rem; text-align: center; color: rgba(255, 255, 255, 0.9); text-shadow: 0 0 10px rgba(0, 150, 255, 0.5); position: relative; padding: 0 20px; animation: glow 2s infinite alternate; filter: drop-shadow(0 0 10px rgba(0, 150, 255, 0.7)); }
+        @keyframes glow { from { text-shadow: 0 0 10px rgba(0, 150, 255, 0.5), 0 0 20px rgba(0, 150, 255, 0.3); } to { text-shadow: 0 0 15px rgba(0, 200, 255, 0.7), 0 0 30px rgba(0, 150, 255, 0.5); } }
+        .logo::after { content: ""; position: absolute; bottom: -10px; left: 20px; width: calc(100% - 40px); height: 2px; background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.7), transparent); box-shadow: 0 2px 8px rgba(0, 150, 255, 0.5); }
+        .buttons { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 400px; padding: 0 20px; margin-bottom: 40px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.4s ease; position: relative; overflow: hidden; text-align: center; color: white; transform: translateY(0); opacity: 0; animation: fadeInUp 0.5s forwards; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(10, 15, 30, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1; will-change: transform; }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent); transition: 0.6s; z-index: -1; }
+        .btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6); filter: drop-shadow(0 0 15px rgba(0, 150, 255, 0.7)); }
+        .btn:hover::before { left: 100%; }
+        .btn::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); z-index: -1; border-radius: 12px; }
+        .crack { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+        .btn:hover .crack { opacity: 0.8; }
+        .crack-line { position: absolute; background: rgba(255,255,255,0.8); transform-origin: 0 0; }
+        .btn:nth-child(1) { animation-delay: 0.3s; }
+        .btn:nth-child(2) { animation-delay: 0.5s; }
+        .btn:nth-child(3) { animation-delay: 0.7s; }
+        .btn:nth-child(4) { animation-delay: 0.9s; }
+        .btn:nth-child(5) { animation-delay: 1.1s; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .btn:active { transform: translateY(2px); }
+        #top-vip { border-left: 4px solid #FFD700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(0, 0, 0, 0.7)); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); }
+        #top-vip:hover { background: linear-gradient(135deg, rgba(255, 215, 0, 0.5), rgba(30, 30, 30, 0.8)); box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5); }
+        #fix-lag { border-left: 4px solid #4dffb8; }
+        #fix-lag:hover { background: rgba(20, 70, 50, 0.6); box-shadow: 0 8px 30px rgba(50, 255, 150, 0.4); }
+        #youtuber { border-left: 4px solid #ff4d4d; }
+        #youtuber:hover { background: rgba(70, 20, 30, 0.6); box-shadow: 0 8px 30px rgba(255, 50, 50, 0.4); }
+        #magical { border-left: 4px solid #b84dff; }
+        #magical:hover { background: rgba(50, 20, 70, 0.6); box-shadow: 0 8px 30px rgba(150, 50, 255, 0.4); }
+        #free-file { border-left: 4px solid #4dff88; }
+        #free-file:hover { background: rgba(20, 70, 40, 0.6); box-shadow: 0 8px 30px rgba(50, 255, 100, 0.4); }
+        .version-info { position: fixed; top: 20px; left: 20px; color: rgba(180, 180, 200, 0.7); font-size: 0.7rem; text-align: left; text-shadow: 0 0 5px rgba(0, 150, 255, 0.2); font-family: monospace; letter-spacing: 1px; display: flex; flex-direction: column; gap: 2px; z-index: 2; }
+        .version-info span { display: inline-block; position: relative; }
+        .version-info span::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, rgba(0, 200, 255, 0.3), transparent); }
+        .channel-info { position: fixed; bottom: 40px; right: 20px; color: rgba(180, 180, 200, 0.7); font-size: 0.7rem; text-align: right; text-shadow: 0 0 5px rgba(0, 150, 255, 0.2); font-family: 'Vazirmatn', sans-serif; letter-spacing: 1px; display: flex; flex-direction: row; gap: 20px; z-index: 2; }
+        .channel-info span { display: inline-block; position: relative; }
+        .channel-info span::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, rgba(0, 200, 255, 0.3), transparent); }
+        .vip-modal, .fix-lag-modal, .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px; }
+        .vip-modal-content { background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(255, 215, 0, 0.2)); padding: 20px; border-radius: 15px; width: 100%; max-width: 600px; transform: scale(0.8); opacity: 0; animation: modalOpen 0.3s forwards; position: relative; text-align: center; box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); border: 1px solid rgba(255, 215, 0, 0.3); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        .fix-lag-modal-content { background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(50, 255, 150, 0.2)); padding: 30px; border-radius: 15px; width: 100%; max-width: 500px; transform: scale(0.8); opacity: 0; animation: modalOpen 0.3s forwards; position: relative; text-align: center; box-shadow: 0 0 40px rgba(50, 255, 150, 0.6); border: 1px solid rgba(50, 255, 150, 0.3); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+        .modal-content { background: rgba(20, 15, 30, 0.95); padding: 30px; border-radius: 15px; width: 100%; max-width: 500px; transform: scale(0.8); opacity: 0; animation: modalOpen 0.3s forwards; position: relative; text-align: center; box-shadow: 0 0 40px rgba(0, 100, 255, 0.6); border: 1px solid rgba(0, 150, 255, 0.3); }
+        @keyframes modalOpen { to { transform: scale(1); opacity: 1; } }
+        .vip-title, .fix-lag-title, .info-title { font-size: clamp(1.5rem, 6vw, 1.8rem); font-weight: 700; margin-bottom: 15px; }
+        .vip-title { color: #FFD700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .fix-lag-title { color: #4dffb8; text-shadow: 0 0 15px rgba(50, 255, 150, 0.5); }
+        .vip-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .fix-lag-options { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .vip-option { padding: 12px; border-radius: 10px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 0, 0, 0.7)); border: 1px solid rgba(255, 215, 0, 0.3); }
+        .vip-option:hover { background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(0, 0, 0, 0.8)); box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); border-color: rgba(255, 215, 0, 0.7); transform: translateY(-2px) scale(1.05); }
+        .fix-lag-option { padding: 15px; border-radius: 10px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; background: rgba(50, 255, 150, 0.1); border: 1px solid rgba(50, 255, 150, 0.3); }
+        .fix-lag-option:hover { background: rgba(50, 255, 150, 0.2); box-shadow: 0 5px 15px rgba(50, 255, 150, 0.3); transform: translateY(-3px); }
+        .vip-option::before, .fix-lag-option::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); transition: 0.5s; }
+        .vip-option:hover::before, .fix-lag-option:hover::before { left: 100%; }
+        .ripple { position: absolute; border-radius: 50%; background: rgba(255, 215, 0, 0.3); transform: scale(0); animation: ripple 0.6s linear; pointer-events: none; }
+        @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+        .vip-option-name, .fix-lag-option-name { font-weight: 700; font-size: 1rem; }
+        .vip-option-name { color: #FFD700; }
+        .fix-lag-option-name { color: #4dffb8; margin-bottom: 5px; }
+        .close-vip-modal, .close-fix-lag-modal, .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #ff4d4d; transition: all 0.3s; z-index: 2; }
+        .close-vip-modal:hover, .close-fix-lag-modal:hover, .close-modal:hover { transform: rotate(90deg); color: #ff8080; }
+        .info-page { display: flex; flex-direction: column; gap: 20px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .info-title { font-size: clamp(1.5rem, 6vw, 1.8rem); font-weight: 700; margin-bottom: 10px; color: rgba(0, 200, 255, 0.9); text-shadow: 0 0 15px rgba(0, 150, 255, 0.5); }
+        .motivational-quote { font-size: clamp(1rem, 4vw, 1.2rem); line-height: 1.8; color: rgba(255, 255, 255, 0.95); font-style: italic; margin: 20px 0; padding: 20px; border-radius: 12px; background: rgba(0, 30, 60, 0.3); border-left: 4px solid rgba(0, 200, 255, 0.7); animation: textGlow 3s infinite alternate; position: relative; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); text-align: right; direction: rtl; }
+        .motivational-quote::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 200, 255, 0.1), transparent 70%); z-index: -1; animation: photonGlow 6s infinite alternate; }
+        @keyframes photonGlow { 0% { transform: translate(0, 0); } 50% { transform: translate(20px, 20px); } 100% { transform: translate(0, 0); } }
+        @keyframes textGlow { from { text-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 0 0 2px rgba(0, 200, 255, 0.5); } to { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 5px rgba(0, 200, 255, 0.8); } }
+        .download-btn { padding: 15px 25px; border-radius: 12px; border: none; background: rgba(0, 150, 255, 0.7); color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; margin-top: 10px; text-decoration: none; border: 1px solid rgba(0, 150, 255, 0.5); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .download-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: 0.5s; }
+        .download-btn:hover::before { left: 100%; }
+        .download-btn:hover { background: rgba(0, 170, 255, 0.9); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 150, 255, 0.5); }
+        .github-link { font-size: 0.9rem; color: rgba(0, 200, 255, 0.9); text-decoration: none; margin-top: 10px; display: inline-block; transition: color 0.3s; }
+        .github-link:hover { color: #FFD700; }
+        .back-btn { padding: 12px 25px; border-radius: 12px; border: none; background: rgba(40, 45, 60, 0.7); color: white; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-align: center; margin-top: 20px; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .back-btn:hover { background: rgba(60, 65, 80, 0.8); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); }
+        .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .particle { position: absolute; width: 2px; height: 2px; background: rgba(255, 255, 255, 0.5); border-radius: 50%; animation: float linear infinite; will-change: transform; }
+        @keyframes float { 0% { transform: translateY(0) translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) translateX(100px); opacity: 0; } }
+        .orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.1; z-index: -1; will-change: transform; }
+        .orb-1 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0, 150, 255, 0.8), transparent 70%); top: -100px; right: -100px; animation: pulse 8s infinite alternate; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(150, 0, 255, 0.6), transparent 70%); bottom: -150px; left: -150px; animation: pulse 10s infinite alternate-reverse; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.1; } 50% { opacity: 0.2; } 100% { transform: scale(1.2); opacity: 0.1; } }
+        .emoji { font-size: 1.2em; vertical-align: middle; animation: floatEmoji 3s infinite ease-in-out; will-change: transform; }
+        @keyframes floatEmoji { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .vip-code-container { display: flex; flex-direction: column; gap: 15px; margin: 20px 0; }
+        .vip-code-input { padding: 15px; border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.5); background: rgba(0, 0, 0, 0.3); color: white; font-size: 1rem; text-align: center; outline: none; transition: all 0.3s; }
+        .vip-code-input:focus { border-color: rgba(255, 215, 0, 0.8); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        .vip-code-submit { padding: 12px; border-radius: 8px; border: none; background: rgba(255, 215, 0, 0.7); color: #222; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .vip-code-submit:hover { background: rgba(255, 215, 0, 0.9); transform: translateY(-2px); }
+        .vip-code-error { color: #ff4d4d; font-size: 0.9rem; margin-top: -10px; display: none; }
+        @media (max-width: 768px) {
+            .buttons { max-width: 90%; }
+            .btn { padding: 14px 20px; font-size: 1.1rem; }
+            .modal-content, .vip-modal-content, .fix-lag-modal-content { padding: 20px 15px; }
+            .motivational-quote { padding: 15px; }
+            .download-btn, .back-btn { padding: 12px 20px; }
+            .version-info { left: 20px; top: 20px; text-align: left; width: auto; }
+            .channel-info { right: 50%; transform: translateX(50%); text-align: center; bottom: 30px; }
+            .vip-options { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+            .vip-option { padding: 10px; }
+            .vip-option-name { font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 2.2rem; }
+            .btn { padding: 12px 18px; font-size: 1rem; border-radius: 10px; }
+            .modal-content, .vip-modal-content, .fix-lag-modal-content { padding: 15px 10px; }
+            .info-title, .vip-title, .fix-lag-title { font-size: 1.3rem; }
+            .motivational-quote { font-size: 0.9rem; padding: 12px; }
+            .version-info { top: 15px; font-size: 0.6rem; }
+            .channel-info { bottom: 40px; font-size: 0.6rem; }
+            .vip-options { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px; }
+            .vip-option { padding: 8px; }
+            .vip-option-name { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Karbawzi1File -->
+    <div class="lightning"></div>
+    <div class="rain" id="rain"></div>
+    <div class="particles" id="particles"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    
+    <!-- Version Info -->
+    <div class="version-info">
+        <span>Globally Version 1.0.52.8</span>
+        <span>Latest update 2025.9.7</span>
+    </div>
+    
+    <!-- Channel Info -->
+    <div class="channel-info">
+        <span>🌐 Channel: Karbawzi1File</span>
+        <span>👤 Help: Karbawzi1PV</span>
+    </div>
+    
+    <!-- Karbawzi1File -->
+    <div class="container">
+        <div class="logo">Karbawzi</div>
+        
+        <div class="buttons">
+            <button class="btn" id="top-vip">
+                <span class="crack" id="crack0"></span>
+                TOP VIP <span class="emoji">👑</span>
+            </button>
+            <button class="btn" id="fix-lag">
+                <span class="crack" id="crack5"></span>
+                FIX LAG <span class="emoji">⚡</span>
+            </button>
+            <button class="btn" id="youtuber">
+                <span class="crack" id="crack1"></span>
+                YOUTUBER <span class="emoji">🎥</span>
+            </button>
+            <button class="btn" id="magical">
+                <span class="crack" id="crack3"></span>
+                MAGICAL <span class="emoji">✨</span>
+            </button>
+            <button class="btn" id="free-file">
+                <span class="crack" id="crack4"></span>
+                Free File <span class="emoji">🎁</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Karbawzi1File -->
+    <div class="vip-modal" id="vipModal">
+        <div class="vip-modal-content">
+            <span class="close-vip-modal">×</span>
+            
+            <h2 class="vip-title">TOP VIP ACCESS</h2>
+            
+            <div class="vip-options">
+                <div class="vip-option" id="vip-arash">
+                    <div class="vip-option-name">Arash</div>
+                </div>
+                <div class="vip-option" id="vip-mmd">
+                    <div class="vip-option-name">MmD Co</div>
+                </div>
+                <div class="vip-option" id="vip-admino">
+                    <div class="vip-option-name">Wild Man</div>
+                </div>
+                <div class="vip-option" id="vip-eris">
+                    <div class="vip-option-name">Eris</div>
+                </div>
+                <div class="vip-option" id="vip-gazal">
+                    <div class="vip-option-name">Gazal</div>
+                </div>
+                <div class="vip-option" id="vip-ali">
+                    <div class="vip-option-name">Ali</div>
+                </div>
+                <div class="vip-option" id="vip-evil">
+                    <div class="vip-option-name">Evil</div>
+                </div>
+                <div class="vip-option" id="vip-sina">
+                    <div class="vip-option-name">Sina</div>
+                </div>
+                <div class="vip-option" id="vip-c13">
+                    <div class="vip-option-name">C13</div>
+                </div>
+                <div class="vip-option" id="vip-ferg">
+                    <div class="vip-option-name">Ferg</div>
+                </div>
+                <div class="vip-option" id="vip-iosmmd">
+                    <div class="vip-option-name">IOSMmd</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Karbawzi1File -->
+    <div class="fix-lag-modal" id="fixLagModal">
+        <div class="fix-lag-modal-content">
+            <span class="close-fix-lag-modal">×</span>
+            
+            <h2 class="fix-lag-title">FIX LAG ACCESS</h2>
+            
+            <div class="fix-lag-options">
+                <div class="fix-lag-option" id="fix-lag-sam">
+                    <div class="fix-lag-option-name">Sam</div>
+                </div>
+                <div class="fix-lag-option" id="fix-lag-mmdreza">
+                    <div class="fix-lag-option-name">MmdReza</div>
+                </div>
+                <div class="fix-lag-option" id="fix-lag-deadrose">
+                    <div class="fix-lag-option-name">DeadRose</div>
+                </div>
+                <div class="fix-lag-option" id="fix-lag-sarhang">
+                    <div class="fix-lag-option-name">Sarhang</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Karbawzi1File -->
+    <div class="modal" id="contentModal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            
+            <div class="info-page">
+                <h2 class="info-title" id="infoTitle">Welcome</h2>
+                <div class="motivational-quote" id="motivationalQuote"></div>
+                
+                <div class="vip-code-container" id="vipCodeContainer" style="display: none;">
+                    <input type="text" class="vip-code-input" id="vipCodeInput" placeholder="Enter VIP Access Code">
+                    <button class="vip-code-submit" id="vipCodeSubmit">Submit</button>
+                    <div class="vip-code-error" id="vipCodeError">Invalid VIP Code. Please try again.</div>
+                </div>
+                
+                <a href="#" class="download-btn" id="downloadBtn" style="display: none;">
+                    Download <span class="emoji">⬇️</span>
+                </a>
+                <a href="#" class="github-link" id="githubLink" style="display: none;">View Config on GitHub</a>
+                <button class="back-btn" id="backBtn">
+                    Back to Main <span class="emoji">🔙</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Karbawzi1File
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create rain effect
+            const rainContainer = document.getElementById('rain');
+            const rainDropsCount = window.innerWidth < 768 ? 40 : 60;
+            
+            for (let i = 0; i < rainDropsCount; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('rain-drop');
+                drop.style.left = Math.random() * 100 + 'vw';
+                drop.style.animationDuration = (Math.random() * 0.5 + 0.7) + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.height = (Math.random() * 15 + 10) + 'px';
+                drop.style.opacity = Math.random() * 0.4 + 0.2;
+                rainContainer.appendChild(drop);
+            }
+            
+            // Create floating particles
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.width = (Math.random() * 3 + 1) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Create glass crack effects for buttons
+            function createCracks(buttonId) {
+                const button = document.getElementById(buttonId);
+                const crack = document.createElement('div');
+                crack.classList.add('crack');
+                
+                for (let i = 0; i < 3; i++) {
+                    const crackLine = document.createElement('div');
+                    crackLine.classList.add('crack-line');
+                    
+                    const length = Math.random() * 60 + 20;
+                    const angle = Math.random() * 360;
+                    const left = Math.random() * 80 + 10;
+                    const top = Math.random() * 80 + 10;
+                    const width = Math.random() * 2 + 0.5;
+                    
+                    crackLine.style.width = `${length}px`;
+                    crackLine.style.height = `${width}px`;
+                    crackLine.style.left = `${left}%`;
+                    crackLine.style.top = `${top}%`;
+                    crackLine.style.transform = `rotate(${angle}deg)`;
+                    crackLine.style.opacity = Math.random() * 0.5 + 0.3;
+                    
+                    crack.appendChild(crackLine);
+                }
+                
+                button.appendChild(crack);
+            }
+            
+            createCracks('top-vip');
+            createCracks('fix-lag');
+            createCracks('youtuber');
+            createCracks('magical');
+            createCracks('free-file');
+            
+            // Unified click/touch handler for vip-option
+            function handleVipOptionInteraction(option, id) {
+                option.addEventListener('click', () => openModal(id));
+                option.addEventListener('touchstart', function(e) {
+                    e.stopPropagation(); // Prevent touch event from bubbling
+                    const rect = option.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    const diameter = Math.max(rect.width, rect.height);
+                    const radius = diameter / 2;
+                    ripple.style.width = ripple.style.height = `${diameter}px`;
+                    ripple.style.left = `${touch.clientX - rect.left - radius}px`;
+                    ripple.style.top = `${touch.clientY - rect.top - radius}px`;
+                    option.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                    openModal(id);
+                }, { passive: false });
+            }
+            
+            // Apply unified handler to all vip-options
+            const vipOptions = document.querySelectorAll('.vip-option');
+            vipOptions.forEach(option => {
+                const id = option.id.replace('vip-', '');
+                handleVipOptionInteraction(option, id);
+            });
+            
+            // Persian motivational quotes
+            const motivationalQuotes = [
+                "تنها محدودیت‌های ما آنهایی هستند که در ذهن خود می‌سازیم. ✨",
+                "موفقیت نهایی نیست، شکست مرگبار نیست: این شجاعت ادامه دادن است که اهمیت دارد. 💪",
+                "باور کنید که می‌توانید و نیمی از راه را رفته‌اید. 🚀",
+                "زمان شما محدود است، آن را با زندگی کردن زندگی دیگران هدر ندهید. ⏳",
+                "آینده از آن کسانی است که به زیبایی رویاهایشان باور دارند. 🌌",
+                "تلاش نکنید موفق باشید، بلکه تلاش کنید باارزش باشید. 🌟",
+                "تنها راه انجام کار بزرگ این است که عاشق کاری باشی که انجام می‌دهی. ❤️",
+                "به ساعت نگاه نکنید؛ کاری را انجام دهید که ساعت انجام می‌دهد. ادامه دهید. ⏱️",
+                "راه پیشرفت این است که شروع کنید. 🏁",
+                "همیشه غیرممکن به نظر می‌رسد تا زمانی که انجام شود. 🔥",
+                "طوری عمل کنید که گویی آنچه انجام می‌دهید تفاوت ایجاد می‌کند. همینطور هم هست. 🌍",
+                "هیچوقت برای تعیین هدف جدید یا رویای جدید پیر نیستید. 🌈",
+                "هرچه سخت‌تر برای چیزی تلاش کنید، وقتی به آن برسید احساس بهتری خواهید داشت. 🏆",
+                "بزرگتر فکر کن. بزرگتر عمل کن. 🌠",
+                "با عزم از خواب برخیزید. با رضایت به خواب بروید. ☀️🌙"
+            ];
+            
+            // Karbawzi1File
+            const topVipBtn = document.getElementById('top-vip');
+            const fixLagBtn = document.getElementById('fix-lag');
+            const youtuberBtn = document.getElementById('youtuber');
+            const magicalBtn = document.getElementById('magical');
+            const freeFileBtn = document.getElementById('free-file');
+            const vipModal = document.getElementById('vipModal');
+            const closeVipModal = document.querySelector('.close-vip-modal');
+            const fixLagModal = document.getElementById('fixLagModal');
+            const closeFixLagModal = document.querySelector('.close-fix-lag-modal');
+            const fixLagSam = document.getElementById('fix-lag-sam');
+            const fixLagMmdReza = document.getElementById('fix-lag-mmdreza');
+            const fixLagDeadRose = document.getElementById('fix-lag-deadrose');
+            const fixLagSarhang = document.getElementById('fix-lag-sarhang');
+            const contentModal = document.getElementById('contentModal');
+            const closeModal = document.querySelector('.close-modal');
+            const infoTitle = document.getElementById('infoTitle');
+            const motivationalQuote = document.getElementById('motivationalQuote');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const githubLink = document.getElementById('githubLink');
+            const backBtn = document.getElementById('backBtn');
+            const vipCodeContainer = document.getElementById('vipCodeContainer');
+            const vipCodeInput = document.getElementById('vipCodeInput');
+            const vipCodeSubmit = document.getElementById('vipCodeSubmit');
+            const vipCodeError = document.getElementById('vipCodeError');
+            
+            // Karbawzi1File
+            const contentInfo = {
+                'fix-lag-sam': {
+                    title: '⚡ Sam Fix Lag',
+                    downloadText: 'Download Sam Fix Lag Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'FixSam1010'
+                },
+                'fix-lag-mmdreza': {
+                    title: '⚡ MmdReza Fix Lag',
+                    downloadText: 'Download MmdReza Fix Lag Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'FixMmdReza110010'
+                },
+                'fix-lag-deadrose': {
+                    title: '⚡ DeadRose Fix Lag',
+                    downloadText: 'Download DeadRose Fix Lag Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'FixDeadRose1001010'
+                },
+                'fix-lag-sarhang': {
+                    title: '⚡ Sarhang Fix Lag',
+                    downloadText: 'Download Sarhang Fix Lag Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'FixSarhang110011010'
+                },
+                'youtuber': {
+                    title: '🎥 YOUTUBER Access',
+                    downloadText: 'Download YOUTUBER Config',
+                    downloadLink: 'https://s33.picofile.com/file/8485665576/YouTuber_V11.zip.html',
+                    requireVip: true,
+                    vipCode: 'YouTuberVipKarbawzi0101'
+                },
+                'magical': {
+                    title: '✨ MAGICAL Access',
+                    downloadText: 'Download MAGICAL Config',
+                    downloadLink: 'https://s33.picofile.com/file/8485665600/Magical_V11.zip.html',
+                    requireVip: true,
+                    vipCode: 'MagicalVipCode01010'
+                },
+                'free-file': {
+                    title: '🎁 Free File Access',
+                    downloadText: 'Download Free File',
+                    downloadLink: 'https://s33.picofile.com/file/8485667142/FreeFile_Karbawzi.zip.html',
+                    requireVip: false
+                },
+                'arash': {
+                    title: '👑 Arash VIP',
+                    downloadText: 'Download Arash VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'Arash01010111'
+                },
+                'mmd': {
+                    title: '👑 MmD Co VIP',
+                    downloadText: 'Download MmD Co VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'MmdEcho0011010111'
+                },
+                'admino': {
+                    title: '👑 Wild Man VIP',
+                    downloadText: 'Download Wild Man VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'WildMan00011101'
+                },
+                'eris': {
+                    title: '👑 Eris VIP',
+                    downloadText: 'Download Eris VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'ErisViP010101'
+                },
+                'gazal': {
+                    title: '👑 Gazal VIP',
+                    downloadText: 'Download Gazal VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'Gazal010101010'
+                },
+                'ali': {
+                    title: '👑 Ali VIP',
+                    downloadText: 'Download Ali VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'Ali01010101Vip'
+                },
+                'evil': {
+                    title: '👑 Evil VIP',
+                    downloadText: 'Download Evil VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'Evil010101ViP01'
+                },
+                'sina': {
+                    title: '👑 Sina VIP',
+                    downloadText: 'Download Sina VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'Sina01010001Vip'
+                },
+                'c13': {
+                    title: '👑 C13 VIP',
+                    downloadText: 'Download C13 VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'C13Vip010113'
+                },
+                'ferg': {
+                    title: '👑 Ferg VIP',
+                    downloadText: 'Download Ferg VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'FergVipVip100101'
+                },
+                'iosmmd': {
+                    title: '👑 IOSMmd VIP',
+                    downloadText: 'Download IOSMmd VIP Config',
+                    downloadLink: '#',
+                    requireVip: true,
+                    vipCode: 'IosMmd1010Vip01'
+                }
+            };
+            
+            // Current selected option
+            let currentOption = null;
+            
+            // Karbawzi1File - Modal Functions
+            function openVipModal() {
+                vipModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeVipModalFunc() {
+                vipModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                document.querySelectorAll('.ripple').forEach(ripple => ripple.remove());
+            }
+            
+            function openFixLagModal() {
+                fixLagModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeFixLagModalFunc() {
+                fixLagModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            function openModal(option) {
+                currentOption = option;
+                const randomQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+                
+                infoTitle.textContent = contentInfo[option].title;
+                motivationalQuote.textContent = randomQuote;
+                downloadBtn.textContent = contentInfo[option].downloadText;
+                downloadBtn.href = contentInfo[option].downloadLink;
+                githubLink.href = contentInfo[option].downloadLink;
+                githubLink.textContent = 'View Config on GitHub';
+                
+                if (contentInfo[option].requireVip) {
+                    vipCodeContainer.style.display = 'flex';
+                    downloadBtn.style.display = 'none';
+                    githubLink.style.display = 'none';
+                    vipCodeInput.value = '';
+                    vipCodeError.style.display = 'none';
+                } else {
+                    vipCodeContainer.style.display = 'none';
+                    downloadBtn.style.display = 'flex';
+                    githubLink.style.display = 'flex';
+                }
+                
+                if (option === 'free-file') {
+                    downloadBtn.style.background = 'rgba(0, 200, 100, 0.7)';
+                    downloadBtn.style.borderColor = 'rgba(0, 200, 100, 0.5)';
+                } else if (contentInfo[option].requireVip) {
+                    downloadBtn.style.background = 'rgba(255, 215, 0, 0.7)';
+                    downloadBtn.style.borderColor = 'rgba(255, 215, 0, 0.5)';
+                } else {
+                    downloadBtn.style.background = 'rgba(0, 150, 255, 0.7)';
+                    downloadBtn.style.borderColor = 'rgba(0, 150, 255, 0.5)';
+                }
+                
+                contentModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                closeVipModalFunc(); // Ensure VIP modal is closed
+                closeFixLagModalFunc(); // Ensure Fix Lag modal is closed
+            }
+            
+            function closeModalFunc() {
+                contentModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                currentOption = null;
+                vipCodeInput.value = '';
+                vipCodeError.style.display = 'none';
+                vipCodeContainer.style.display = 'none';
+                downloadBtn.style.display = 'none';
+                githubLink.style.display = 'none';
+                document.querySelectorAll('.ripple').forEach(ripple => ripple.remove());
+            }
+            
+            function checkVipCode() {
+                const enteredCode = vipCodeInput.value.trim();
+                const correctCode = contentInfo[currentOption].vipCode;
+                
+                if (enteredCode === correctCode) {
+                    vipCodeError.style.display = 'none';
+                    vipCodeContainer.style.display = 'none';
+                    downloadBtn.style.display = 'flex';
+                    githubLink.style.display = 'flex';
+                } else {
+                    vipCodeError.style.display = 'block';
+                    vipCodeError.textContent = `Invalid VIP Code for ${contentInfo[currentOption].title}. Please try again.`;
+                }
+            }
+            
+            // Karbawzi1File
+            topVipBtn.addEventListener('click', openVipModal);
+            fixLagBtn.addEventListener('click', openFixLagModal);
+            youtuberBtn.addEventListener('click', () => openModal('youtuber'));
+            magicalBtn.addEventListener('click', () => openModal('magical'));
+            freeFileBtn.addEventListener('click', () => openModal('free-file'));
+            
+            fixLagSam.addEventListener('click', () => openModal('fix-lag-sam'));
+            fixLagMmdReza.addEventListener('click', () => openModal('fix-lag-mmdreza'));
+            fixLagDeadRose.addEventListener('click', () => openModal('fix-lag-deadrose'));
+            fixLagSarhang.addEventListener('click', () => openModal('fix-lag-sarhang'));
+            
+            closeVipModal.addEventListener('click', closeVipModalFunc);
+            closeFixLagModal.addEventListener('click', closeFixLagModalFunc);
+            closeModal.addEventListener('click', closeModalFunc);
+            backBtn.addEventListener('click', closeModalFunc);
+            
+            vipCodeSubmit.addEventListener('click', checkVipCode);
+            vipCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkVipCode();
+                }
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === vipModal) {
+                    closeVipModalFunc();
+                }
+                if (e.target === fixLagModal) {
+                    closeFixLagModalFunc();
+                }
+                if (e.target === contentModal) {
+                    closeModalFunc();
+                }
+            });
+            
+            // Karbawzi1File
+            setInterval(() => {
+                const lightning = document.querySelector('.lightning');
+                lightning.style.animation = 'none';
+                void lightning.offsetWidth; // Trigger reflow
+                lightning.style.animation = 'lightning ' + (Math.random() * 10 + 10) + 's infinite';
+            }, 15000);
+            
+            // Karbawzi1File
+            function handleOrientationChange() {
+                const isPortrait = window.innerHeight > window.innerWidth;
+                if (isPortrait && window.innerWidth < 768) {
+                    document.querySelector('.buttons').style.maxWidth = '90%';
+                } else {
+                    document.querySelector('.buttons').style.maxWidth = '400px';
+                }
+            }
+            
+            window.addEventListener('resize', handleOrientationChange);
+            window.addEventListener('orientationchange', handleOrientationChange);
+            handleOrientationChange();
+        });
+    </script>
+    <!-- Karbawzi1File -->
+</body>
+</html>
